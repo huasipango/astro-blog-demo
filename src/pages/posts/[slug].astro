@@ -15,8 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
-import { Formatter } from "@utils/Formatter";
-
+import { Formatter } from "../../utils/formatter.ts";
 
 const { post } = Astro.props as { post: CollectionEntry<"blog"> };
 

@@ -1,6 +1,6 @@
 ---
-import { Formatter } from "@utils/Formatter";
-const {frontmatter, url} = Astro.props;
+import { Formatter } from "@utils/formatter";
+const { frontmatter, url } = Astro.props;
 ---
 
 <div class="lg:flex">
@@ -11,13 +11,12 @@ const {frontmatter, url} = Astro.props;
     />
 
     <div class="flex flex-col justify-between py-6 lg:mx-6">
-        <a
-            href={url}
-            class="text-xl font-semibold hover:underline text-white"
-        >
+        <a href={url} class="text-xl font-semibold hover:underline text-white">
             {frontmatter.description}
         </a>
 
-        <span class="text-sm text-gray-300">{Formatter.formatDate(frontmatter.date)}</span>
+        <span class="text-sm text-gray-300"
+            >{Formatter.formatDate(frontmatter.date)}</span
+        >
     </div>
 </div>
