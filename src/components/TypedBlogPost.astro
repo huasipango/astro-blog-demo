@@ -4,10 +4,10 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
-    post: CollectionEntry<"blog">
+    post: CollectionEntry<"blog">;
 }
 
-const {post} = Astro.props;
+const { post } = Astro.props;
 
 const frontmatter = post.data;
 ---
@@ -31,6 +31,8 @@ const frontmatter = post.data;
             {frontmatter.description}
         </a>
 
-        <span class="text-sm text-gray-300">{Formatter.formatDate(frontmatter.date)}</span>
+        <span class="text-sm text-gray-300"
+            >{Formatter.formatDate(frontmatter.date)}</span
+        >
     </div>
 </div>

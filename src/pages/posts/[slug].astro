@@ -5,25 +5,45 @@ import { getCollection } from "astro:content";
 import BlogLayout from "src/layouts/BlogLayout.astro";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const posts = await getCollection('blog');
-    
-    return posts.map(post => ({
+    const posts = await getCollection("blog");
+
+    return posts.map((post) => ({
         params: { slug: post.slug },
-        props: { post }
+        props: { post },
     }));
 };
 
-const { post } = Astro.props;
+import type { CollectionEntry } from "astro:content";
+import { getEntry } from "astro:content";
+import { Formatter } from "@utils/Formatter";
+
+const { post } = Astro.props as { post: CollectionEntry<"blog"> };
+
 const frontmatter = post.data;
 
-const {Content, headings} = await post.render();
+const { Content, headings } = await post.render();
 
-
+const author = (await getEntry("author", post.data.author.id))?.data;
 ---
 
 <BlogLayout title={frontmatter.title}>
     <h1 class="text-xs text-gray-500 mb-0">{frontmatter.title}</h1>
-    <h4 class="text-md text-gray-400 mb-0">{frontmatter.author}</h4>
+    <div class="text-md text-gray-400 mb-0 flex flex-row mt-2">
+        <Image
+            src={author.avatar}
+            class={"rounded-full"}
+            alt={author.name}
+            width={50}
+            height={50}
+        />
+
+        <div class="flex flex-col ml-5">
+            <a href={`/blog/${frontmatter.author.id}`}>{author?.name}</a>
+            <span class="text-xs text-gray-200"
+                >{Formatter.formatDate(frontmatter.date)}
+            </span>
+        </div>
+    </div>
 
     <Image
         src={frontmatter.image}
@@ -33,7 +53,6 @@ const {Content, headings} = await post.render();
         class="object-cover w-full h-[250px] my-5 rounded-md"
         transition:name={`${post.slug}-image`}
     />
-
 
     <!-- Tabla de contenidos -->
     <h3>Tabla de contenidos</h3>
@@ -45,10 +64,9 @@ const {Content, headings} = await post.render();
                         {index + 1} - {heading.text}
                     </a>
                 </li>
-            )
-        )}
+            ))
+        }
     </ol>
-
 
     <!-- Contenido -->
     <Content />
@@ -56,8 +74,4 @@ const {Content, headings} = await post.render();
     <div class="my-20">
         <a href="#btn-back">Ir arriba</a>
     </div>
-
-
 </BlogLayout>
-
-
