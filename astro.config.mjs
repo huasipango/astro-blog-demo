@@ -14,5 +14,5 @@ export default defineConfig({
   },
 
   integrations: [mdx()],
-  site: "https:example.com"
+  site: "https://anthony-astro-blog.netlify.app/"
 });
